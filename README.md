@@ -93,6 +93,12 @@ If we left out the | search song=*, we would get results back that included pass
 ## Login with plaintext password and URI
 index='' sourcetype=stream:http form_data=*username*passwd* dest_ip=192.168.250.70 src=40.80.148.42 | rex field=form_data "passwd=(?<userpassword>\w+)"| search userpassword=* | table _time uri userpassword
 
+## Using Averages to find average password length
+index='' sourcetype=stream:http http_method=POST | rex field=form_data "passwd=(?<userpassword>\w+)" | search userpassword=*
+| eval mylen=len(userpassword)
+| stats avg(mylen) AS avg_len_http
+| eval avg_len_http=round(avg_len_http,0)
+
 ## Stats with URI
 index='' dest=192.168.250.70 sourcetype=stream:http status=200 | stats count by uri | sort - count
 
