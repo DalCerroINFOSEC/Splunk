@@ -89,5 +89,13 @@ Run Search in New Tab
 
 If we left out the | search song=*, we would get results back that included passwords extracted from events but did not have the song match and we would need to go through our list looking for matches. In this example, we output both the song from the lookup and the password from the event to illustrate this. To make the search tighter, we add that search string.
 
+## Stats with URI
+index='' dest=192.168.250.70 sourcetype=stream:http status=200 | stats count by uri | sort - count
+
+
+## URI Data with IIS logs
+
+index='' sourcetype=iis sc_status=200 | stats values(cs_uri_stem)
+
 ### CREDIT TO
 inodee/threathunting-spl;spl.ninja;MuS
