@@ -63,5 +63,27 @@ Once we have extracted the password values, we really only care about 6 characte
 
 | table userpassword lenpword
 
+## Using lookups example
+index=botsv1 sourcetype=stream:http form_data=*username*passwd* | rex field=form_data "passwd=(?<userpassword>\w+)" | eval lenpword=len(userpassword) | search lenpword=6
+  
+Here is our initial search that returns all passwords with a length of 6 from our events.
+
+| eval password=lower(userpassword)
+
+In lookups, case matters, so we will convert those extracted passwords to lower case using the eval command and lower function.
+
+| lookup coldplay.csv song as password OUTPUTNEW song
+
+The lookup command compares the lookup value, in this case song from the coldplay.csv file, to the password value from the events. If we get a hit, output the song.
+
+| search song=*
+
+Search for any of the results that have a song value
+
+| table song
+
+index=botsv1 sourcetype=stream:http form_data=*username*passwd* | rex field=form_data "passwd=(?<userpassword>\w+)" | eval lenpword=len(userpassword) | search lenpword=6 | eval password=lower(userpassword) | lookup coldplay.csv song as password OUTPUTNEW song  | table song password
+Run Search in New Tab
+If we left out the | search song=*, we would get results back that included passwords extracted from events but did not have the song match and we would need to go through our list looking for matches. In this example, we output both the song from the lookup and the password from the event to illustrate this. To make the search tighter, we add that search string.
 ### CREDIT TO
 inodee/threathunting-spl;spl.ninja;MuS
