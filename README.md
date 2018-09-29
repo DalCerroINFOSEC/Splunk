@@ -109,6 +109,9 @@ index='' sourcetype=stream:http  | rex field=form_data "passwd=(?<userpassword>\
 ## Stats with URI
 index='' dest=192.168.250.70 sourcetype=stream:http status=200 | stats count by uri | sort - count
 
+## Counting fields & Unique counts with splunk
+index='' sourcetype=stream:http | fields src_ip  | stats count(src_ip)
+index='' sourcetype=stream:http | fields src_ip  | stats dc(src_ip)
 
 ## URI Data with IIS logs
 
