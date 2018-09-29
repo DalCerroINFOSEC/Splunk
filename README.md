@@ -1,7 +1,7 @@
 # Splunk
 Useful Splunk Searches
 
-# #How to correlate parent and child processes from 4688 Eventlog
+## How to correlate parent and child processes from 4688 Eventlog
 Using streamstats to show child processes being spawned within 60 seconds after the parent instance. (Not 100% Coverage).
 To increase/decrease this time span, simple tweak the time_window parameter below:
 
@@ -25,6 +25,14 @@ privileges.
 
 ## McAfee ePO Critical/High events
 index=* sourcetype=* (severity=critical OR severity=high) | stats values(event_description) AS desc, values(signature) AS signature, values(file_name) AS file_path, count AS result BY dest | eval dd="index=main sourcetype=mcafee:epo (severity=critical OR severity=high) dest=".dest
+
+## Listing indexes and their sourcetypes
+| eventcount summarize=false index=* index=_* | dedup index | fields index 
+  | map maxsearches=100 search="|metadata type=sourcetypes index=\"$index$\" | eval index=\"$index$\""
+  | fields index sourcetype
+  
+ Using TSTATS is actually WAY better for this.
+ | tstats count WHERE index=* OR sourcetype=* by index,sourcetype | stats values(sourcetype) AS sourcetypes by index
 
 
 
