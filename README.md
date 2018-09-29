@@ -89,6 +89,10 @@ Run Search in New Tab
 
 If we left out the | search song=*, we would get results back that included passwords extracted from events but did not have the song match and we would need to go through our list looking for matches. In this example, we output both the song from the lookup and the password from the event to illustrate this. To make the search tighter, we add that search string.
 
+
+## Login with plaintext password and URI
+index='' sourcetype=stream:http form_data=*username*passwd* dest_ip=192.168.250.70 src=40.80.148.42 | rex field=form_data "passwd=(?<userpassword>\w+)"| search userpassword=* | table _time uri userpassword
+
 ## Stats with URI
 index='' dest=192.168.250.70 sourcetype=stream:http status=200 | stats count by uri | sort - count
 
