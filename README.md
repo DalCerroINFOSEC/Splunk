@@ -99,6 +99,9 @@ index='' sourcetype=stream:http http_method=POST | rex field=form_data "passwd=(
 | stats avg(mylen) AS avg_len_http
 | eval avg_len_http=round(avg_len_http,0)
 
+## Auditing clear text password used / from source / along with time
+index='' sourcetype=stream:http | rex field=form_data "passwd=(?<userpassword>\w+)" | search userpassword=batman | table _time userpassword src
+
 ## Stats with URI
 index='' dest=192.168.250.70 sourcetype=stream:http status=200 | stats count by uri | sort - count
 
