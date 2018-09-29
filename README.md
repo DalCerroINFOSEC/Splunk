@@ -82,8 +82,12 @@ Search for any of the results that have a song value
 
 | table song
 
+PUTTING IT TOGETHER
 index=botsv1 sourcetype=stream:http form_data=*username*passwd* | rex field=form_data "passwd=(?<userpassword>\w+)" | eval lenpword=len(userpassword) | search lenpword=6 | eval password=lower(userpassword) | lookup coldplay.csv song as password OUTPUTNEW song  | table song password
+  
 Run Search in New Tab
+
 If we left out the | search song=*, we would get results back that included passwords extracted from events but did not have the song match and we would need to go through our list looking for matches. In this example, we output both the song from the lookup and the password from the event to illustrate this. To make the search tighter, we add that search string.
+
 ### CREDIT TO
 inodee/threathunting-spl;spl.ninja;MuS
