@@ -37,6 +37,8 @@ index=* sourcetype=* (severity=critical OR severity=high) | stats values(event_d
 ## Finding cleartext passwords
 index='' sourcetype=stream:http form_data=*username*passwd* | table _time form_data
 
+...with regex and extracting only the password
+index='' sourcetype=stream:http http_method=POST | rex field=form_data "passwd=(?<userpassword>\w+)" |search userpassword=* | reverse | table userpassword src_ip
 
 ## Using the reverse command
 | reverse
