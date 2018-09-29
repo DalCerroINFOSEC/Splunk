@@ -34,6 +34,10 @@ index=* sourcetype=* (severity=critical OR severity=high) | stats values(event_d
  Using TSTATS is actually WAY better for this.
  | tstats count WHERE index=* OR sourcetype=* by index,sourcetype | stats values(sourcetype) AS sourcetypes by index
 
+## Finding cleartext passwords
+index='' sourcetype=stream:http form_data=*username*passwd* | table _time form_data
+
+
 ## Using the stats command
 | stats count by 'insert field here'
 
