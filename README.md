@@ -46,5 +46,12 @@ index='' sourcetype=stream:http http_method=POST | rex field=form_data "passwd=(
 ## Using the stats command
 | stats count by 'insert field here'
 
+## Extracting Certain Verbage using rex
+Here is an example query
+index=* sourcetype=stream:http form_data=*username*passwd*
+| rex field=form_data "passwd=(?<userpassword>\w+)"
+As you can see from our search the idea is that we use the rex command to extract values from the form_data field and look for a string that starts with passwd= and then immediately capture all the “word characters”, that is 0-9 A-Z and _. When it reaches the end of those character matches and hits the "&" in the data returned, it will stop capturing values. The resulting values extracted are placed in a new field called "userpassword."
+| table userpassword
+
 ### CREDIT TO
 inodee/threathunting-spl;spl.ninja;MuS
