@@ -37,5 +37,4 @@ index=* sourcetype=* (severity=critical OR severity=high) | stats values(event_d
 
 
 ### CREDIT TO
-inodee/threathunting-spl
-spl.ninja
+inodee/threathunting-spl;spl.ninja;MuS
