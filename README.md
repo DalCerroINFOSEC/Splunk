@@ -1,7 +1,7 @@
 # Splunk
 Useful Splunk Searches
 
-#How to correlate parent and child processes from 4688 Eventlog
+# #How to correlate parent and child processes from 4688 Eventlog
 Using streamstats to show child processes being spawned within 60 seconds after the parent instance. (Not 100% Coverage).
 To increase/decrease this time span, simple tweak the time_window parameter below:
 
@@ -14,7 +14,7 @@ EventCode=4688
 | eval parent=replace(mvindex(proc_name_id_all,parent), "^(.+)#mysep#.+$", "\1")
 
 
-#Admin account tracking via Eventlog ID 4688 (New Process)
+## Admin account tracking via Eventlog ID 4688 (New Process)
 |index=X sourcetype=Y EventCode=4688 Token_Elevation_Type="*(3)"
 Too do: Table this off and clean out the noise.
 
@@ -28,6 +28,6 @@ index=* sourcetype=* (severity=critical OR severity=high) | stats values(event_d
 
 
 
-#CREDIT TO
+### CREDIT TO
 inodee/threathunting-spl
 spl.ninja
