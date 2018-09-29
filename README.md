@@ -101,6 +101,10 @@ index='' sourcetype=stream:http http_method=POST | rex field=form_data "passwd=(
 
 ## Auditing clear text password used / from source / along with time
 index='' sourcetype=stream:http | rex field=form_data "passwd=(?<userpassword>\w+)" | search userpassword=batman | table _time userpassword src
+  
+## Transaction command. This command will calculate the time between the first event specified and the last.
+index='' sourcetype=stream:http  | rex field=form_data "passwd=(?<userpassword>\w+)" |search userpassword=batman
+| transaction userpassword | table duration
 
 ## Stats with URI
 index='' dest=192.168.250.70 sourcetype=stream:http status=200 | stats count by uri | sort - count
