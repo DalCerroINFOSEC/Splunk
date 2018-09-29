@@ -50,13 +50,17 @@ index='' sourcetype=stream:http http_method=POST | rex field=form_data "passwd=(
 Here is an example query
 index=* sourcetype=stream:http form_data=*username*passwd*
 | rex field=form_data "passwd=(?<userpassword>\w+)"
+  
 As you can see from our search the idea is that we use the rex command to extract values from the form_data field and look for a string that starts with passwd= and then immediately capture all the “word characters”, that is 0-9 A-Z and _. When it reaches the end of those character matches and hits the "&" in the data returned, it will stop capturing values. The resulting values extracted are placed in a new field called "userpassword."
+  
 | table userpassword
 
 ## Using len to calculate length
 index=* sourcetype=stream:http form_data=*username*passwd* | rex field=form_data "passwd=(?<userpassword>\w+)"
 | eval lenpword=len(userpassword)
+
 Once we have extracted the password values, we really only care about 6 character passwords because that is the length of the title of the song in the question. To calculate the length of the userpassword fields, we can use the eval command with the len function. Len is short for length. This eval command will create a field called lenpword in this case, that will give us a numeric value for each password string.
+
 | table userpassword lenpword
 
 ### CREDIT TO
