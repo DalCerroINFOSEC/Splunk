@@ -23,7 +23,7 @@ Monitor for Token Elevation Type with value TokenElevationTypeDefault (2) on sta
 real user account, for example when Account Name doesn’t contain the $ symbol. This means that a user ran a program using administrative 
 privileges.
 
-#McAfee ePO Critical/High events
+## McAfee ePO Critical/High events
 index=* sourcetype=* (severity=critical OR severity=high) | stats values(event_description) AS desc, values(signature) AS signature, values(file_name) AS file_path, count AS result BY dest | eval dd="index=main sourcetype=mcafee:epo (severity=critical OR severity=high) dest=".dest
 
 
