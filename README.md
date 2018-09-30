@@ -113,6 +113,9 @@ index='' dest=192.168.250.70 sourcetype=stream:http status=200 | stats count by 
 index='' sourcetype=stream:http | fields src_ip  | stats count(src_ip)
 index='' sourcetype=stream:http | fields src_ip  | stats dc(src_ip)
 
+## View URLs visited along with counts and a percentage field
+index='' src=192.168.250.70 sourcetype=suricata dest_ip=23.22.63.114 | stats count by http.url | eventstats sum(count) as perc | eval percentage=round(count*100/perc,2) | fields - perc | sort - count
+
 ## URI Data with IIS logs
 
 index='' sourcetype=iis sc_status=200 | stats values(cs_uri_stem)
