@@ -123,5 +123,12 @@ index='' sourcetype=fgt_utm "192.168.250.70" |stats count by src | eventstats su
 
 index='' sourcetype=iis sc_status=200 | stats values(cs_uri_stem)
 
+## Playing with RAW fields, extracting DNS name.
+
+index='' answer=23.22.63.114 sourcetype=stream:dns  | stats values("name{}")
+
+RAW LOG
+{"endtime":"2016-08-10T22:06:21.440131Z","timestamp":"2016-08-10T22:06:21.440125Z","host_addr":["23.22.63.114","23.22.63.114"],"name":["prankglassinebracket.jumpingcrab.com","prankglassinebracket.jumpingcrab.com"],"reply_code":["NoError","NoError"],"response_time":[62480,62486],"transaction_id":55247,"ttl":[3599,32768,3599,32768],"bytes":162,"src_ip":"192.168.250.20","src_mac":"00:0C:29:C3:C4:00","src_port":54421,"bytes_in":0,"dest_ip":"8.8.8.8","dest_mac":"08:5B:0E:93:92:AF","dest_port":53,"bytes_out":162,"time_taken":6,"transport":"udp"}
+
 ### CREDIT TO
 inodee/threathunting-spl;spl.ninja;MuS
