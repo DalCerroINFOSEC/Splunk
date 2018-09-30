@@ -119,6 +119,9 @@ index='' src=192.168.250.70 sourcetype=suricata dest_ip=23.22.63.114 | stats cou
 ## FTG traffic
 index='' sourcetype=fgt_utm "192.168.250.70" |stats count by src | eventstats sum(count) as perc | eval percentage=round(count*100/perc,2) | fields - perc | sort - count
 
+## Find sourcetypes by user(or any other field)
+index='' 'insert user' | stats count by sourcetype | eventstats sum(count) as perc | eval percentage=round(count*100/perc,2) | fields - perc | sort - count
+
 ## URI Data with IIS logs
 
 index='' sourcetype=iis sc_status=200 | stats values(cs_uri_stem)
